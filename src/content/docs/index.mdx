@@ -5,32 +5,27 @@ template: splash
 hero:
   tagline: Congrats on setting up a new Starlight project!
   image:
-    file: ../../assets/houston.webp
+    file: ../../assets/logo_tmp.jpg
   actions:
-    - text: Example Guide
-      link: /guides/example/
+    - text: Setup guide
+      link: /guides/setup
       icon: right-arrow
-    - text: Read the Starlight docs
-      link: https://starlight.astro.build
+    - text: View on GitHub
+      link: https://github.com/finxol/karr
       icon: external
       variant: minimal
 ---
 
 import { Card, CardGrid } from '@astrojs/starlight/components';
 
-## Next steps
+## Before you start
 
 <CardGrid stagger>
-	<Card title="Update content" icon="pencil">
-		Edit `src/content/docs/index.mdx` to see this page change.
+	<Card title="Live demo" icon="rocket">
+	   For demonstration purposes, we publish a live demo site.
+	   <a href="https://karr.finxol.io" target="_blank" rel="noopener noreferrer">Visit the demo</a>
 	</Card>
-	<Card title="Add new content" icon="add-document">
-		Add Markdown or MDX files to `src/content/docs` to create new pages.
-	</Card>
-	<Card title="Configure your site" icon="setting">
-		Edit your `sidebar` and other config in `astro.config.mjs`.
-	</Card>
-	<Card title="Read the docs" icon="open-book">
-		Learn more in [the Starlight Docs](https://starlight.astro.build/).
+	<Card title="Are you a developer?" icon="add-document">
+		Check out the [API docs](/api/) to learn how to build with Karr.
 	</Card>
 </CardGrid>
