@@ -27,6 +27,7 @@ export default defineConfig({
                 },
                 {
                     label: "Development",
+                    collapsed: true,
                     items: [
                         {
                             label: "Getting Started",
@@ -46,6 +47,7 @@ export default defineConfig({
                         },
                         {
                             label: "API reference",
+                            collapsed: true,
                             autogenerate: {
                                 directory: "development/api-reference",
                             },
