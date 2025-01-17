@@ -28,8 +28,46 @@ The `packages/` directory contains all packages that are rather meant to be impo
 They aren't meant to be distributed or accessed as standalone.
 It contains:
 
-- `config`: Imports and deals with runtime Karr configuration
-- `db`: Connects to the database
-- `settings`:
-- `ui`:
-- `utils`:
+- `config`: Imports and deals with runtime Karr configuration.
+- `db`: Connects to the database.
+- `settings`: Manages all the higher-level instance settings.
+- `ui`: Contains all the UI components and css for the web frontend.
+- `utils`: Contains utilities such as the `logger`, uuid checker and more.
+
+## Useful commands
+
+### Generate a new package
+
+Turbo generator that interactively creates a new package inside `packages/`.
+If you want an `app` instead (which you probably shouldn't), just move the created directory manually.
+
+```sh
+pnpm turbo gen package
+```
+
+### Most commands in `package.json`
+
+Most commands in a `package.json` can be useful at some point.
+
+The most useful are:
+
+```sh
+# Start the dev environment
+# Make sure you have a local postgres running
+pnpm run dev
+
+# Build the project
+pnpm run build
+
+# Lint the project
+pnpm run lint
+
+# Check the types of the project (Typescript)
+pnpm run check-types
+
+# Run all tests in the project
+pnpm run test
+
+# Format most files in the project
+pnpm run format
+```
