@@ -25,11 +25,21 @@ import { Card, CardGrid } from '@astrojs/starlight/components';
 
 ## Before you start
 
+### Git
+
 Make sure you've been added to the github repository and have push permission.
 
 The main branch should be protected, so you'll need to work on another branch and
 [open a pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request)
 when your work is ready.
+
+### Dependencies
+
+Make sure you have all the dependencies, using the correct version:
+
+- [Node.js](https://nodejs.org/en/download): currenly version 22, more generally the latest LTS.
+- [pnpm](https://pnpm.io/installation): currently on version 9, more generally the latest stable version.
+  Should be specified in the root `package.json`.
 
 ## Get the repo
 
@@ -43,7 +53,25 @@ Make sure to have [ssh keys](https://docs.github.com/en/authentication/connectin
 It makes using git much more convenient and [more secure](https://superuser.com/questions/1526712/why-is-ssh-safer-than-https-on-direct-connections-to-a-git-repository-with-crede).
 
 You can also configure git to [sign your commits](https://docs.github.com/en/authentication/managing-commit-signature-verification/signing-commits),
-although not compulsory.
+although not required.
+
+### Git hooks
+
+The repo uses [Husky](https://typicode.github.io/husky/) to manage git hooks.
+
+If a hook fails, the action won't take effect, leaving you the chance to fix it.
+
+There are 3 hooks set up:
+
+- **Pre-commit**: Format the staged files
+- **Pre-push**: Run all tests, check types, lint, and check formatting. These are slower so only done before pushing
+- **Commit-msg**: Check the commit message follows [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
+  This commit format is useful for precise changelog generation.
+
+The hook scripts are located in `.husky/`.
+
+You can always deactivate the git hooks if you really don't like them, the checks will also be run in Github CI.
+The hooks are there for a quicker feedback loop, and avoid waiting several minutes when the checks fail.
 
 <br /><br />
 
