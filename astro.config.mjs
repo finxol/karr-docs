@@ -17,10 +17,14 @@ export default defineConfig({
             },
             sidebar: [
                 {
+                    label: "Glossary",
+                    link: "/glossary",
+                },
+                {
                     label: "Getting Started",
                     items: [
                         {
-                            label: "Setup",
+                            label: "Setup a new instance",
                             link: "/getting-started/setup",
                         },
                     ],
