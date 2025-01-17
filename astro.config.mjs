@@ -34,15 +34,21 @@ export default defineConfig({
                             link: "/development/getting-started",
                         },
                         {
-                            label: "API",
-                            autogenerate: { directory: "development/api" },
+                            label: "Project Structure",
+                            link: "/development/project-structure",
                         },
                         {
                             label: "Web",
                             autogenerate: { directory: "development/web" },
                         },
                         {
+                            label: "API",
+                            collapsed: true,
+                            autogenerate: { directory: "development/api" },
+                        },
+                        {
                             label: "Packages",
+                            collapsed: true,
                             autogenerate: { directory: "development/packages" },
                         },
                         {

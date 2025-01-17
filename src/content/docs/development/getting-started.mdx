@@ -1,13 +1,35 @@
 ---
 title: Getting Started
 description: Get started building Karr.
+prev: false
+next: false
 ---
 
+import { LinkCard } from '@astrojs/starlight/components';
+import { LinkButton } from '@astrojs/starlight/components';
 import { Card, CardGrid } from '@astrojs/starlight/components';
+
+<Card title="Live demo" icon="rocket">
+    Before starting to work on Karr, check out the live demo to see what it looks like and the features implemented.
+    <LinkButton
+        href="https://karr.finxol.io"
+        target="_blank"
+        rel="noopener noreferrer"
+        variant="secondary"
+        icon="external"
+        iconPlacement="start"
+    >
+        Visit the demo
+    </LinkButton>
+</Card>
 
 ## Before you start
 
 Make sure you've been added to the github repository and have push permission.
+
+The main branch should be protected, so you'll need to work on another branch and
+[open a pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request)
+when your work is ready.
 
 ## Get the repo
 
@@ -20,17 +42,14 @@ git clone git@github.com:finxol/karr.git
 Make sure to have [ssh keys](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account) set up.
 It makes using git much more convenient and [more secure](https://superuser.com/questions/1526712/why-is-ssh-safer-than-https-on-direct-connections-to-a-git-repository-with-crede).
 
-You can also configure git to sign your commits.
-More info [here](https://docs.github.com/en/authentication/managing-commit-signature-verification/signing-commits).
+You can also configure git to [sign your commits](https://docs.github.com/en/authentication/managing-commit-signature-verification/signing-commits),
+although not compulsory.
 
-## Cards
+<br /><br />
 
-<CardGrid>
-	<Card title="Live demo" icon="rocket">
-	   For demonstration purposes, we publish a live demo site.
-	   <a href="https://karr.finxol.io" target="_blank" rel="noopener noreferrer">Visit the demo</a>
-	</Card>
-	<Card title="Are you a developer?" icon="add-document">
-		Check out the [developper docs](/development/getting-started) to learn how to build with Karr.
-	</Card>
-</CardGrid>
+Next up:
+<LinkCard
+  title="Project Structure"
+  href="/development/project-structure/"
+  description="Get familiar with the architecture of Karr"
+/>
