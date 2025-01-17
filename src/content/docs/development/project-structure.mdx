@@ -2,3 +2,34 @@
 title: Project Structure
 description: Understand the architecture of Karr.
 ---
+
+Karr is a monorepo, meaning it contains multiple packages.
+
+To make it easier and more efficient to manage, we make use of
+[Turborepo](https://turbo.build/repo/docs).
+This enables parallel builds and caching.
+
+## Existing packages
+
+Each package is defined by its `package.json`.
+
+The root package is `karr`.
+It doesn't contain any actual application logic, it's there purely to scaffold and organise the project.
+
+The `apps/` directory contains all the application packages, so what is meant to be shipped and used by clients.
+It contains:
+
+- `web`: The Nextjs web frontend
+- `api`: The Hono API
+- `caddy`: The Caddy reverse proxy to put the pieces together.
+- `auth`: An auth package that may or may not disappear in the future
+
+The `packages/` directory contains all packages that are rather meant to be imported elsewhere in the monorepo.
+They aren't meant to be distributed or accessed as standalone.
+It contains:
+
+- `config`: Imports and deals with runtime Karr configuration
+- `db`: Connects to the database
+- `settings`:
+- `ui`:
+- `utils`:
