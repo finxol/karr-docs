@@ -75,6 +75,77 @@ Always load files and content from API or `assets/`.
 To fetch data from the API, use `@/util/apifetch`.
 This predefines the behaviour and API base route for data fetching.
 
+##### Trips
+
+The trip fetch route gives back an SSE.
+This means trips are progressively returned.
+
+The web frontend needs to use [`EventSource`](https://developer.mozilla.org/en-US/docs/Web/API/EventSource).
+
+Although won't work for the moment, the API check auth with Authorization header, which is not supported by SSE/EventSource.
+Need to remove auth check on this route at least until mock login is built, then use cookies instead.
+
+<details>
+<summary>Working example in Svelte</summary>
+
+```svelte
+<script lang="ts">
+    import { onMount } from "svelte";
+
+    let dataItems: Array<Record<string, any>> = [];
+    let eventSource: EventSource | null = null;
+
+    let loading = true;
+
+    onMount(() => {
+        eventSource = new EventSource("http://localhost:3000/v1/trip/search");
+
+        // Listen for the custom "new-trips" event
+        eventSource.addEventListener("new-trip", (event) => {
+            const data = JSON.parse(event.data);
+            dataItems = [...dataItems, data];
+            console.log("New data received:", data);
+            console.log("All data:", dataItems);
+        });
+
+        eventSource.onerror = (error) => {
+            if (eventSource?.readyState === 0) {
+                console.warn("SSE connection closed by the server.");
+                eventSource.close();
+                loading = false;
+            } else {
+                console.error("EventSource failed:", error);
+            }
+        };
+
+        return () => {
+            // Cleanup when the component is destroyed
+            eventSource?.close();
+        };
+    });
+</script>
+
+<p>
+    PoC won't work anymore, auth has been added to the API through Authorization
+    header for the moment. Will move to cookie auth in the future to support
+    EventSource.
+</p>
+
+{#if dataItems.length === 0}
+    <p>No data received yet.</p>
+{/if}
+
+<div>
+    {#each dataItems.sort((a, b) => parseInt(a.id) - parseInt(b.id)) as item}
+        <div>{JSON.stringify(item)}</div>
+    {/each}
+    {#if loading}
+        <p>Loading...</p>
+    {/if}
+</div>
+```
+</details>
+
 #### External
 
 You shouldn't need to fetch from external urls, but if you do, use [ofetch](https://github.com/unjs/ofetch).
