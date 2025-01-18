@@ -102,3 +102,41 @@ h1 {
 ```
 
 These can easily be overridden by specifying a Tailwind class.
+
+
+## Exports
+
+The UI package has a few exports
+
+##### `@karr/ui/globals.css`
+
+Exports the [`globals.css`](#globalscss) file.
+
+```css
+@import "@karr/ui/globals.css";
+```
+
+##### `@karr/ui/postcss-config`
+
+Exports the `postcss-config.mjs` file.
+
+##### `@karr/ui/lib/*`
+
+Exports any file in the `lib` directory.
+
+```ts
+import { cn } from "@karr/ui/lib/utils"
+````
+
+##### `@karr/ui/components/*`
+
+Exports any file in the `components` directory.
+
+```ts
+import { Button } from "@karr/ui/components/button"
+import { Separator } from "@karr/ui/components/separator"
+````
+
+##### `@karr/ui/hooks/*`
+
+There are none for the moment, might come in later.

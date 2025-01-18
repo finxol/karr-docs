@@ -43,3 +43,29 @@ With this configuration file, the directory structure would look like this:
   - ...
 - ...
 </FileTree>
+
+## Exports
+
+The config package has a general export for all config values.
+The DB config isn't exported here to avoid leaking credentials.
+
+```ts
+import { API_PORT,
+    LOG_TIMESTAMP,
+    LOG_LEVEL,
+    ADMIN_EMAIL,
+    API_VERSION,
+    APPLICATION_NAME,
+    PRODUCTION } from "@karr/config"; // these are all the config values
+
+console.log(API_PORT);
+```
+
+It also has a static import to explicitly import only the hard-coded config values.
+These values are defined in `src/static.ts`.
+
+```ts "/static"
+import { APPLICATION_NAME, API_VERSION } from "@karr/config/static";
+
+console.log(APPLICATION_NAME, API_VERSION);
+```
