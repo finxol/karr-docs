@@ -3,6 +3,8 @@ title: Project Structure
 description: Understand the architecture of Karr.
 ---
 
+import { Icon } from '@astrojs/starlight/components';
+
 Karr is a monorepo, meaning it contains multiple packages.
 
 To make it easier and more efficient to manage, we make use of
@@ -47,7 +49,7 @@ pnpm turbo gen package
 
 ### Most commands in `package.json`
 
-Most commands in a `package.json` can be useful at some point.
+Most commands in a `package.json` can be useful at some point. Some others are rather for CI or automation.
 
 The most useful are:
 
@@ -71,3 +73,11 @@ pnpm run test
 # Format most files in the project
 pnpm run format
 ```
+
+All commands that run with `turbo` (all above except `format`) will give you a fullscreen overview of the command running in the different packages.
+
+This view shows you the console output of all the running packages. Use the up and down arrows to change which package's output to see.
+
+Here is the result for `pnpm run dev`, with the focus on the web package.
+
+![pnpm run dev](../../../assets/pnpm_run_dev.jpg)

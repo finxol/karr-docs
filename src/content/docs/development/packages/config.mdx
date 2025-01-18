@@ -1,0 +1,45 @@
+---
+title: "@karr/config"
+description: The config package
+---
+
+import yamlConfig from "./config_file.yaml?raw"
+import { Code, FileTree } from '@astrojs/starlight/components';
+
+This package handles all the config imports.
+
+Karr can be configured either through environment variables, or with a config file for a more persistent approach.
+
+## Environment variables
+
+Any field from the config file can be set with an envvar.
+
+They follow the same naming as their config file counterpart.
+The only exception is the db config, which is prefixed by `DB_`,
+e.g. `DB_NAME`, `DB_PASSWORD`, `DB_PASSWORD_FILE`...
+
+## Config file
+
+By default the config file should be located in a `config/` directory at the root of the project and named `karr.config.*`.
+These can be overridden by the `CONFIG_DIR` and `CONFIG_FILENAME` environment variables respectively.
+
+The config file can be in `.yaml`, `.yml`, [`.json5`](https://json5.org/) or `.json` format.
+
+You would typically have your local database credentials in this config file.
+
+<Code code={yamlConfig} lang="yaml" title="config/karr.config.yaml" />
+
+With this configuration file, the directory structure would look like this:
+
+<FileTree>
+- apps
+  - web/
+  - api/
+- config
+  - karr.config.yaml
+- packages
+  - config/
+  - util/
+  - ...
+- ...
+</FileTree>

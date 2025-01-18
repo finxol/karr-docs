@@ -42,7 +42,12 @@ export default defineConfig({
                             link: "/development/project-structure",
                         },
                         {
+                            label: "Configuration",
+                            link: "/development/configuration",
+                        },
+                        {
                             label: "Web",
+                            collapsed: true,
                             autogenerate: { directory: "development/web" },
                         },
                         {
@@ -52,7 +57,7 @@ export default defineConfig({
                         },
                         {
                             label: "Packages",
-                            collapsed: true,
+                            collapsed: false,
                             autogenerate: { directory: "development/packages" },
                         },
                         {

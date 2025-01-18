@@ -1,0 +1,104 @@
+---
+title: "@karr/ui"
+description: The ui package
+---
+
+import { FileTree, LinkCard } from '@astrojs/starlight/components';
+
+This package contains all reusable UI components and global style definition.
+
+Most components are made by [shadcn/ui](https://ui.shadcn.com/).
+Please refer to their docs for addition.
+
+**Do not use the cli**, manually copy-paste the component file and install dependencies if needed.
+The monorepo setup makes it install components in the wrong place.
+
+<FileTree>
+    - src/
+        - components/ Reusable UI components
+            - button.tsx
+            - card.tsx
+            - input.tsx
+            - ...
+        - lib/
+            - utils.ts clsx + tailwind merge utils
+        - styles/ All global css files
+            - base.css
+            - globals.css
+            - reset.css
+            - ...
+        - components.json
+    - package.json
+    - ...
+</FileTree>
+
+## Styling
+
+A CSS reset and some base utilities are defined in `styles/`
+
+This CSS hierarchy follows the specifications of [CUBE CSS](https://cube.fyi/).
+
+This pretty much removes the need for breakpoints.
+That is a great thing because there are so many screen sizes nowadays, we can't build specifically for each one.
+So building a style system that lets the browser decide, adapts and looks good for all sze is golden.
+
+<LinkCard
+  title="Andy Bell on fluid CSS"
+  href="https://www.youtube.com/watch?v=5uhIiI9Ld5M"
+  target="_blank"
+  rel="noopener noreferer"
+  description="Be the browser's mentor, not its micro-manager"
+/>
+
+##### `globals.css`
+
+Sort of a barrel file to import and place other files in layers.
+
+Also contains the tailwind & shadcn/ui theme configuration.
+
+The layers are `block, utilities, base, theme`, from strongest to lowest precedence.
+
+
+##### `reset.css`
+
+**Layer**: `base`
+
+Does a few modern CSS resets for more convenience when writing styles.
+
+
+##### `base.css`
+
+**Layer**: `base`
+
+Defines body styling and basic CSS variables.
+
+
+##### `utilities.css`
+
+**Layer**: `utilities`
+
+Defines more CSS variables for fluid typing and spacing.
+
+This overrides Tailwindcss' `text-*` classes with fluid sizing.
+No need for `text-base md:text-lg lg:text-xl`, the font size adjusts automatically to the screen size!
+
+
+##### `block.css`
+
+**Layer**: `block`
+
+Defines block-scope properties.
+
+For example, all headings get a base style, e.g. for `h1`:
+```css
+h1 {
+    line-height: 1;
+    letter-spacing: var(--tracking-s);
+    font-weight: bold;
+    font-family: var(--font-mono);
+    font-size: var(--size-step-5);
+    max-width: 20ch;
+}
+```
+
+These can easily be overridden by specifying a Tailwind class.

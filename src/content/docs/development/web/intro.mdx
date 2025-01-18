@@ -1,0 +1,76 @@
+---
+title: Introduction
+description: Get started with the web application
+---
+
+import { FileTree } from '@astrojs/starlight/components';
+
+This assumes steps in [Getting started](/development/getting-started)
+and [Project structure](/development/project-structure) are done and understood.
+
+This also assumes you are familiar with [Next.js](https://nextjs.org/) and [Tailwind CSS](https://tailwindcss.com/).
+
+## Structure
+
+All application code lives in the `src/` directory.
+
+<FileTree>
+    - src/
+        - app/
+            - (index)/ Contains the home page files
+                - apage.tsx
+            - search/
+                - _components/ Local use components
+                    - SearchBar.tsx
+                    - SearchResults.tsx
+                - page.tsx
+            - ...
+        - assets/ All static assets to be imported
+        - components/ Global use components
+            - QueryProvider.tsx
+        - util/
+            - apifetch.ts Helper to fetch data from the API
+    - package.json
+    - next.config.js
+    - ...
+</FileTree>
+
+## Conventions/Practices
+
+### Imports
+
+Only imports from the same directory are relative, otherwise, all are `@/*`.
+This alias' root is at `src/`, so `@/components/QueryProvider` resolves to `src/components/QueryProvider`.
+
+### Components
+
+Components that are meant to be used within only one scope should be defined in a local `_components/` directory.
+
+Components that are meant to be used in multiples pages should be defined in the root `components/` directory.
+To avoid a huge component dump, they can be sorted by use.
+
+UI components such as buttons, tabs, avatar, stats graph, etc. should be defined in the `@karr/ui`.
+More information on [the package's page](/development/packages/ui).
+
+### Images
+
+Always use [`next/image`](https://nextjs.org/docs/pages/api-reference/components/image)'s `<Image>`,
+importing the image directly into the tsx component.
+When possible, also use `placeholder="blur"` for a nice [Blurhash](https://blurha.sh/) while the image loads.
+
+### Fetching
+
+Minimise as much as possible any dependence on external providers (Google Fonts, image cdn, etc.).
+Always load files and content from API or `assets/`.
+
+#### From the API
+
+To fetch data from the API, use `@/util/apifetch`.
+This predefines the behaviour and API base route for data fetching.
+
+#### External
+
+You shouldn't need to fetch from external urls, but if you do, use [ofetch](https://github.com/unjs/ofetch).
+```ts
+import { ofetch } from "ofetch"
+```
