@@ -82,14 +82,14 @@ If a hook fails, the action won't take effect, leaving you the chance to fix it.
 There are 3 hooks set up:
 
 - **Pre-commit**: Format the staged files
-- **Pre-push**: Run all tests, check types, lint, and check formatting. These are slower so only done before pushing
+- **Pre-push**: Run all tests, check types, lint, and check formatting. These are slower so only done before pushing.
 - **Commit-msg**: Check the commit message follows [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
   This commit format is useful for precise changelog generation.
 
 The hook scripts are located in `.husky/`.
 
 You can always deactivate the git hooks if you really don't like them, the checks will also be run in Github CI.
-The hooks are there for a quicker feedback loop, and avoid waiting several minutes when the checks fail.
+The hooks are there for a quicker feedback loop, and avoid waiting several minutes before finding out a check fails.
 
 {/* <br /><br />
 
