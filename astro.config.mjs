@@ -1,11 +1,16 @@
 // @ts-check
 import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
+import config from "./config";
 
 import tailwind from "@astrojs/tailwind";
 
 // https://astro.build/config
 export default defineConfig({
+    site: config.docsWebsite,
+    devToolbar: {
+        enabled: false,
+    },
     integrations: [
         starlight({
             title: "Karr Docs",
@@ -13,8 +18,12 @@ export default defineConfig({
                 src: "./src/assets/logo_tmp.jpg",
             },
             social: {
-                github: "https://github.com/finxol/karr",
+                github: config.github,
             },
+            editLink: {
+                baseUrl: `${config.docsGithub}/edit/main/`,
+            },
+            pagination: false,
             sidebar: [
                 {
                     label: "Glossary",
