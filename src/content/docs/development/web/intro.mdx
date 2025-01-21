@@ -1,6 +1,9 @@
 ---
 title: Introduction
 description: Get started with the web application
+tableOfContents:
+    minHeadingLevel: 2
+    maxHeadingLevel: 4
 ---
 
 import { FileTree } from '@astrojs/starlight/components';
@@ -58,6 +61,16 @@ To avoid a huge component dump, they can be sorted by use.
 
 UI components such as buttons, tabs, avatar, stats graph, etc. should be defined in the `@karr/ui`.
 More information on [the package's page](/development/packages/ui).
+
+#### Adding [shadcn/ui](https://ui.shadcn.com/) components
+
+All shadcn/ui components are small and for targeted uses, so they should be added to the `@karr/ui` package.
+Please refer to [this package's documentation](/development/packages/ui).
+
+The only exception is for the pre-build Blocks and Charts *— not the Chart component.*
+These are bigger pieces of UI that are composed of multiple different components,
+so they should be directly put in `apps/web`.
+Refer to the [previous section](#components) for details.
 
 ### Images
 

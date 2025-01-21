@@ -3,15 +3,12 @@ title: "@karr/ui"
 description: The ui package
 ---
 
-import { FileTree, LinkCard } from '@astrojs/starlight/components';
+import { FileTree, LinkCard, Steps } from '@astrojs/starlight/components';
 
 This package contains all reusable UI components and global style definition.
 
 Most components are made by [shadcn/ui](https://ui.shadcn.com/).
-Please refer to their docs for addition.
-
-**Do not use the cli**, manually copy-paste the component file and install dependencies if needed.
-The monorepo setup makes it install components in the wrong place.
+Please [read below](#adding-shadcnui-components).
 
 <FileTree>
     - src/
@@ -32,15 +29,46 @@ The monorepo setup makes it install components in the wrong place.
     - ...
 </FileTree>
 
+## Adding shadcn/ui components
+
+**Do not use the CLI**.
+The [shadcn/ui](https://ui.shadcn.com/) CLI is not made for a monorepo structure, *at least [not yet](https://ui.shadcn.com/docs/monorepo)*.
+Instead, follow the manual instructions.
+
+<Steps>
+
+1.  **On the page of the component you want to add, go to the Manual tab of the Installation section.**
+    ![pnpm run dev](../../../../assets/shadcnui_manual_installation.jpg)
+
+2.  **Copy the code of the component into a new file of the name of the component into `src/components`.**
+
+    For example, a Button component would copied into `packages/ui/src/components/button.tsx`.
+
+3.  **Update the import path for the `cn` utility.**
+
+    By default, it's imported from `"@/lib/utils"`. We want to import it like this instead:
+
+    ```ts
+    import { cn } from "@karr/ui/lib/utils"
+    ```
+
+    This way the import works both from outside the package because of the `@karr/ui` package specifier,
+    and inside the package thanks to the tsconfig path.
+
+4.  If there are any, **install the dependencies into `@karr/ui` directly**, not in `apps/web`.
+
+</Steps>
+
+
 ## Styling
 
 A CSS reset and some base utilities are defined in `styles/`
 
 This CSS hierarchy follows the specifications of [CUBE CSS](https://cube.fyi/).
 
-This pretty much removes the need for breakpoints.
+This pretty much removes the need for breakpoints on certain parts like font sizes.
 That is a great thing because there are so many screen sizes nowadays, we can't build specifically for each one.
-So building a style system that lets the browser decide, adapts and looks good for all sze is golden.
+So building a style system that lets the browser decide, adapts and looks good for all sizes is golden.
 
 <LinkCard
   title="Andy Bell on fluid CSS"
