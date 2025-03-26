@@ -3,10 +3,13 @@ import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
 import config from "./config";
 
+import deno from "@deno/astro-adapter";
 import tailwind from "@astrojs/tailwind";
 
 // https://astro.build/config
 export default defineConfig({
+    output: "server",
+    adapter: deno(),
     site: config.docsWebsite,
     devToolbar: {
         enabled: false,
