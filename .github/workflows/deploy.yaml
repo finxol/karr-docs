@@ -37,5 +37,5 @@ jobs:
               uses: denoland/deployctl@v1
               with:
                   project: karr-docs
-                  entrypoint: jsr:@std/http/file-server
+                  entrypoint: server/entry.mjs
                   root: dist
