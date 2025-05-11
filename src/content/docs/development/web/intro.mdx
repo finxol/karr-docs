@@ -8,17 +8,16 @@ tableOfContents:
 
 import { FileTree } from '@astrojs/starlight/components';
 
-This assumes steps in [Getting started](/development/getting-started)
-and [Project structure](/development/project-structure) are done and understood.
+This assumes all previous articles are read and understood.
 
 This also assumes you are familiar with [Next.js](https://nextjs.org/) and [Tailwind CSS](https://tailwindcss.com/).
 
-## Federation precision
+## Federation clarification
 
-Although Karr is a federated service, the frontend does not handle federation.
+Although Karr can be a federated service, the frontend does not handle federation.
 All federation is done on server side, the client only communicates with its instance's API.
 
-However, the UI will show which instance a user/trip comes from.
+The UI will however show which instance a user/trip comes from.
 
 ## Structure
 
@@ -49,17 +48,22 @@ All application code lives in the `src/` directory.
 
 ### Imports
 
-Only imports from the same directory are relative, otherwise, all are `@/*`.
-This alias' root is at `src/`, so `@/components/QueryProvider` resolves to `src/components/QueryProvider`.
+Only imports from the same directory or subdirectories are relative.
+Otherwise, use either:
+
+- `@/*`: This alias' root is at `src/`, so `@/i18n/routing` resolves to `src/i18n/routing`.
+- `~/*`: This alias' root is at `src/app/`, so `~/auth/actions` resolves to `src/app/auth/actions`.
 
 ### Components
 
-Components that are meant to be used within only one scope should be defined in a local `_components/` directory.
+Components should live as low in the file as possible.
 
-Components that are meant to be used in multiples pages should be defined in the root `components/` directory.
-To avoid a huge component dump, they can be sorted by use.
+- A component that is useful only in one page should live next to that page,
+  or in `_components` directory next to that page.
+- A component that is used across multiple pages should live in the lowest common ancestor's directory,
+or its `_components` directory.
 
-UI components such as buttons, tabs, avatar, stats graph, etc. should be defined in the `@karr/ui`.
+Highly reusable components such as buttons, tabs, avatar, stats graph, etc. should be defined in the `@karr/ui` package.
 More information on [the package's page](/development/packages/ui).
 
 #### Adding [shadcn/ui](https://ui.shadcn.com/) components
@@ -75,8 +79,7 @@ Refer to the [previous section](#components) for details.
 ### Images
 
 Always use [`next/image`](https://nextjs.org/docs/pages/api-reference/components/image)'s `<Image>`,
-importing the image directly into the tsx component.
-When possible, also use `placeholder="blur"` for a nice [Blurhash](https://blurha.sh/) while the image loads.
+importing the image directly into the tsx component when possible, along with `placeholder="blur"` for a nice [Blurhash](https://blurha.sh/) while the image loads.
 
 ### Fetching
 
@@ -85,79 +88,67 @@ Always load files and content from API or `assets/`.
 
 #### From the API
 
-To fetch data from the API, use `@/util/apifetch`.
-This predefines the behaviour and API base route for data fetching.
+##### RPC
+
+The API is built with Hono, which offers [RPC](https://hono.dev/docs/guides/rpc) for end-to-end type safety between the API and web front-end.
+
+The RPC client is ready to use from `@/util/apifetch`.
+
+```ts
+import { client } from "@/util/apifetch"
+```
+
+Then use it inside a query.
+This way, the `data` key will be properly typed with the return type from the API route.
+
+For example:
+
+```ts
+const { data, isError, isLoading, error } = useQuery({
+    queryKey: ["user"],
+    queryFn: async () => {
+        const res = await client.user.info.$get()
+        if (res.status !== 200) {
+            throw new Error("Failed to fetch user data", {
+                cause: await res.json()
+            })
+        }
+        return res.json()
+    }
+})
+```
+
+This works the same for other request methods.
+The body fields will be properly typed.
+
+For example with post:
+
+```ts
+const res = await tryCatch(
+    client.trips.add.$post({
+        json: {
+            ...data
+        }
+    })
+)
+if (!res.success) {
+    console.error(res.error)
+    toast.error("Something went wrong")
+} else {
+    toast.success(t("added"))
+    router.push("/trips/search")
+}
+```
 
 ##### Trips
 
 The trip fetch route gives back an SSE.
 This means trips are progressively returned.
 
-The web frontend needs to use [`EventSource`](https://developer.mozilla.org/en-US/docs/Web/API/EventSource).
-
-Although won't work for the moment, the API check auth with Authorization header, which is not supported by SSE/EventSource.
-Need to remove auth check on this route at least until mock login is built, then use cookies instead.
-
-<details>
-<summary>Working example in Svelte</summary>
-
-```svelte
-<script lang="ts">
-    import { onMount } from "svelte";
-
-    let dataItems: Array<Record<string, any>> = [];
-    let eventSource: EventSource | null = null;
-
-    let loading = true;
-
-    onMount(() => {
-        eventSource = new EventSource("http://localhost:3000/v1/trip/search");
-
-        // Listen for the custom "new-trips" event
-        eventSource.addEventListener("new-trip", (event) => {
-            const data = JSON.parse(event.data);
-            dataItems = [...dataItems, data];
-            console.log("New data received:", data);
-            console.log("All data:", dataItems);
-        });
-
-        eventSource.onerror = (error) => {
-            if (eventSource?.readyState === 0) {
-                console.warn("SSE connection closed by the server.");
-                eventSource.close();
-                loading = false;
-            } else {
-                console.error("EventSource failed:", error);
-            }
-        };
-
-        return () => {
-            // Cleanup when the component is destroyed
-            eventSource?.close();
-        };
-    });
-</script>
-
-<p>
-    PoC won't work anymore, auth has been added to the API through Authorization
-    header for the moment. Will move to cookie auth in the future to support
-    EventSource.
-</p>
-
-{#if dataItems.length === 0}
-    <p>No data received yet.</p>
-{/if}
-
-<div>
-    {#each dataItems.sort((a, b) => parseInt(a.id) - parseInt(b.id)) as item}
-        <div>{JSON.stringify(item)}</div>
-    {/each}
-    {#if loading}
-        <p>Loading...</p>
-    {/if}
-</div>
+This isn't yet supported by Hono RPC, so use:
+```ts
+import { apiFetch } from "@/util/apifetch"
 ```
-</details>
 
 #### External
 
