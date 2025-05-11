@@ -1,28 +1,35 @@
 // @ts-check
 import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
-import config from "./config";
+import config from "./values";
 
 import deno from "@deno/astro-adapter";
-import tailwind from "@astrojs/tailwind";
+
+import tailwindcss from "@tailwindcss/vite";
 
 // https://astro.build/config
 export default defineConfig({
     output: "static",
     adapter: deno(),
     site: config.docsWebsite,
+
     devToolbar: {
         enabled: false,
     },
+
     integrations: [
         starlight({
             title: "Karr Docs",
             logo: {
                 src: "./src/assets/logo_tmp.jpg",
             },
-            social: {
-                github: config.github,
-            },
+            social: [
+                {
+                    icon: "github",
+                    label: "GitHub",
+                    href: config.docsGithub,
+                },
+            ],
             editLink: {
                 baseUrl: `${config.docsGithub}/edit/main/`,
             },
@@ -84,12 +91,12 @@ export default defineConfig({
             ],
             customCss: [
                 // Path to your Tailwind base styles:
-                "./src/tailwind.css",
+                "./src/styles/global.css",
             ],
         }),
-        tailwind({
-            // Disable the default base styles:
-            applyBaseStyles: false,
-        }),
     ],
+
+    vite: {
+        plugins: [tailwindcss()],
+    },
 });
