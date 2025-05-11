@@ -22,20 +22,20 @@ It doesn't contain any actual application logic, it's there purely to scaffold a
 The `apps/` directory contains all the application packages, so what is meant to be shipped and used by clients.
 It contains:
 
-- `web`: The Nextjs web frontend
 - `api`: The Hono API
 - `caddy`: The Caddy reverse proxy to put the pieces together.
-- `auth`: An auth package that may or may not disappear in the future
+- `landing`: The code for the landing page on [karr.mobi](https://karr.mobi/?utm_source=docs). You probably won't need to touch anything in here.
+- `web`: The Nextjs web frontend
 
 The `packages/` directory contains all packages that are rather meant to be imported elsewhere in the monorepo.
 They aren't meant to be distributed or accessed as standalone.
 It contains:
 
+- `auth`: Contains the [OpenAuth](https://openauth.js.org/) client and subject definitions.
 - `config`: Imports and deals with runtime Karr configuration.
-- `db`: Connects to the database using [Drizzle](https://orm.drizzle.team/).
-- `settings`: Manages all the higher-level instance settings.
+- `logger`: Contains a custom logger for nicer looking logs.
 - `ui`: Contains all the UI components and css for the web frontend.
-- `utils`: Contains utilities such as the `logger`, uuid checker and more.
+- `util`: Contains utilities such as the a uuid checker and more.
 
 ## Useful commands
 
