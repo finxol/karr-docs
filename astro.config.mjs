@@ -46,6 +46,10 @@ export default defineConfig({
                             label: "Setup a new instance",
                             link: "/getting-started/setup",
                         },
+                        {
+                            label: "Configuration Reference",
+                            link: "/getting-started/configuration-reference",
+                        },
                     ],
                 },
                 {
