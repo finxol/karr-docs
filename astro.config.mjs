@@ -69,6 +69,10 @@ export default defineConfig({
                             link: "/development/configuration",
                         },
                         {
+                            label: "Dependency Management",
+                            link: "/development/dependencies",
+                        },
+                        {
                             label: "Web",
                             collapsed: true,
                             autogenerate: { directory: "development/web" },
